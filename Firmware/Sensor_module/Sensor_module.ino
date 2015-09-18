@@ -120,18 +120,17 @@ void loop() {
 
   analogReference(DEFAULT);
   delay(10);
-  vred_value = smooth(analogRead(VRED_PIN), numReadings, 1); 
-  
+  vred_value = smooth(analogRead(VRED_PIN), numReadings, 1);   
+ 
+  if ((vnox_value != 1111)||(vnox_value != 1111)) 
+  GasReg(CO_reg, NO_reg, vred_value, vnox_value, PU); 
   #ifdef DEBUG
   Serial.print("  Vnox: ");
   Serial.print(vnox_value, DEC);
   Serial.print(" Vred: ");
   Serial.println(vred_value, DEC);
   #endif
-  
-  if ((vnox_value != 1111)||(vnox_value != 1111)) 
-  GasReg(CO_reg, NO_reg, vred_value, vnox_value, PU); 
   delay(100);
-  digitalWrite(PRE_PIN, 1);
+  digitalWrite(PRE_PIN, 1); //heating of sensor
   delay(100);
 }
