@@ -1,5 +1,5 @@
 //****SETTING*********************************************
-#define DEBUG //need for a display service information, WITHOUT DEBUG program MORE faster!!!
+//#define DEBUG //need for a display service information, WITHOUT DEBUG program MORE faster!!!
 
 //output pin
 #define OUTPUTSIGN 		   A4 // if >1000 - ON, if >300 and <700 - OFF, else - NOTHING
@@ -8,8 +8,8 @@
 #define VRED_PIN         A1
 
 //regulation values
-int CO_reg = 512;
-int NO_reg = 512;
+int CO_reg = 884;//200ppm CO with 820 ohm + 100kOhm Rload
+int NO_reg = 675;//5ppm NOx with 820 ohm + 51kOhm Rload
 int PU = 10; //hysteresis, determines point B(picture 1) relative to the fixed MIN, 10 ~= 0.065mm
 
 //for smoothing
@@ -21,7 +21,7 @@ int readIndex[2] = {0, 0};
 int total[2] = {0, 0};
 char first_calc_flag[2] = {0, 0};
 
-#define PRE_HEAT_SECONDS 10
+#define PRE_HEAT_SECONDS 5
 
 int vnox_value = 0;
 int vred_value = 0;
@@ -44,6 +44,7 @@ void setup() {
   #ifdef DEBUG
   Serial.println("Done");
   #endif
+  digitalWrite(PRE_PIN, 0);
 }
 
 int smooth(int AI, int num, char ch)
@@ -112,7 +113,7 @@ void GasReg(int SuCO, int SuNO, int CO, int NOx, int PU_v)
 }
 
 void loop() {
-  digitalWrite(PRE_PIN, 0);
+  //digitalWrite(PRE_PIN, 0);
   // Read analog values, print them out, and wait
   analogReference(INTERNAL);
   delay(10);
@@ -130,7 +131,7 @@ void loop() {
   Serial.print(" Vred: ");
   Serial.println(vred_value, DEC);
   #endif
-  delay(100);
-  digitalWrite(PRE_PIN, 1); //heating of sensor
+//  delay(100);
+//  digitalWrite(PRE_PIN, 1); //heating of sensor
   delay(100);
 }
